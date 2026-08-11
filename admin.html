@@ -11,7 +11,7 @@
     <section class="admin-card">
       <div class="admin-icon">⚙</div>
       <h1>Painel da campanha</h1>
-      <p>Configure a única página pública de resgate e as informações oficiais da campanha.</p>
+      <p>Configure a página pública, o resgate e as informações oficiais da campanha.</p>
 
       <div class="current-preview"><span>Nome atual</span><strong id="currentName">Visitante</strong></div>
 
@@ -29,7 +29,7 @@
           <textarea id="messageInput" name="message" rows="3" placeholder="Mensagem exibida no site"></textarea>
         </label>
         <label>Valor do prêmio
-          <input id="valueInput" name="prizeValue" placeholder="R$ 1.500,00" />
+          <input id="valueInput" name="prizeValue" placeholder="R$ 30.000,00" />
         </label>
         <label>Código de validação
           <input id="validationInput" name="validationCode" placeholder="PRM-2026-000001" />
@@ -51,12 +51,31 @@
           <input id="termsInput" name="termsUrl" placeholder="https://..." />
         </label>
 
+        <div class="span-2 admin-section-title">
+          <strong>Etapa ao clicar em Continuar</strong>
+          <span>Defina o meio exibido e o código copia e cola.</span>
+        </div>
+
+        <label>Forma exibida
+          <select id="paymentMethodInput" name="paymentMethod">
+            <option value="pix">PIX</option>
+            <option value="boleto">Boleto</option>
+          </select>
+        </label>
         <label>Texto do botão principal
-          <input id="buttonTextInput" name="buttonText" placeholder="Consultar detalhes do prêmio" />
+          <input id="buttonTextInput" name="buttonText" placeholder="Continuar" />
         </label>
-        <label>Link do botão principal
-          <input id="buttonLinkInput" name="buttonLink" placeholder="https://..." />
+        <label class="span-2">Código copia e cola
+          <textarea id="paymentCodeInput" name="paymentCode" rows="4" placeholder="Cole aqui o código PIX copia e cola ou a linha digitável do boleto"></textarea>
         </label>
+        <label class="span-2">Texto da etapa de resgate
+          <textarea id="redemptionTextInput" name="redemptionText" rows="3" placeholder="Texto exibido antes do código"></textarea>
+        </label>
+
+        <div class="span-2 admin-warning">
+          <strong>Transparência da campanha</strong>
+          <p>Se o código representar pagamento, taxa ou transferência, deixe valor, finalidade e condições claramente informados no regulamento e nos termos. Não use cobrança oculta para liberar prêmio.</p>
+        </div>
 
         <div class="span-2 action-row">
           <button class="button secondary" id="restoreButton" type="button">Restaurar</button>
@@ -66,7 +85,7 @@
 
       <div class="notice-box">
         <strong>Modo de teste</strong>
-        <p>As configurações ainda ficam salvas apenas neste navegador. Depois de validar o layout, conectamos ao Supabase para o painel atualizar a página para todos os visitantes e protegemos o admin com login.</p>
+        <p>As configurações ficam salvas neste navegador. Para o painel atualizar a página para todos os visitantes, o próximo passo é conectar uma base online, como Supabase, e proteger o admin com login.</p>
       </div>
       <a class="button secondary full" href="index.html">Abrir página pública</a>
     </section>
