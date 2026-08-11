@@ -1,0 +1,11 @@
+const STORAGE_KEY='campanha-premiada-settings';
+const defaults={customerName:'Visitante',campaignName:'Campanha Premiada',headline:'Parabéns, {nome}!',message:'Você possui uma condição especial disponível para consulta.',prizeValue:'R$ 0,00',paymentType:'pix',pixCode:'',barcodeCode:'',recipientName:'Não informado',buttonText:'Continuar',buttonLink:'#'};
+function load(){try{return {...defaults,...JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}')}}catch{return defaults}}
+function text(id,value){const el=document.getElementById(id);if(el)el.textContent=value||''}
+function showToast(msg){const t=document.createElement('div');t.className='toast';t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),1800)}
+function render(){const s=load();text('campaignName',s.campaignName);text('customerName',s.customerName);document.querySelector('#headline').innerHTML=(s.headline||'Parabéns, {nome}!').replace('{nome}',`<span id="customerName">${String(s.customerName||'Visitante').replace(/[<>]/g,'')}</span>`);text('message',s.message);text('prizeValue',s.prizeValue);text('recipientName',s.recipientName);text('paymentTitle',s.paymentType==='barcode'?'Código / linha digitável':'PIX');document.getElementById('pixArea').hidden=s.paymentType!=='pix';document.getElementById('barcodeArea').hidden=s.paymentType!=='barcode';document.getElementById('pixCode').value=s.pixCode||'';document.getElementById('barcodeCode').value=s.barcodeCode||'';const cta=document.getElementById('ctaButton');cta.textContent=s.buttonText||'Continuar';cta.href=s.buttonLink||'#';const qr=document.getElementById('qrCode');qr.innerHTML='';if(s.paymentType==='pix'&&s.pixCode&&window.QRCode){new QRCode(qr,{text:s.pixCode,width:196,height:196})}else if(s.paymentType==='pix'){qr.textContent='Adicione um PIX no painel para gerar o QR Code.'}}
+async function copyFrom(id,label){const value=document.getElementById(id).value;if(!value)return showToast('Nenhum código configurado');await navigator.clipboard.writeText(value);showToast(label)}
+document.getElementById('copyPix')?.addEventListener('click',()=>copyFrom('pixCode','PIX copiado'));
+document.getElementById('copyBarcode')?.addEventListener('click',()=>copyFrom('barcodeCode','Código copiado'));
+render();
+window.addEventListener('storage',render);
