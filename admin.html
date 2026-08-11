@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Painel da Campanha</title>
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body class="admin-body">
+  <main class="admin-shell">
+    <section class="admin-card">
+      <div class="admin-icon">⚙</div>
+      <h1>Painel da campanha</h1>
+      <p>Configure o conteúdo exibido na página pública.</p>
+
+      <div class="current-preview">
+        <span>Nome atual</span>
+        <strong id="currentName">Visitante</strong>
+      </div>
+
+      <form id="settingsForm" class="form-grid">
+        <label>Nome exibido
+          <input id="nameInput" name="customerName" placeholder="SERGIO MACEDO BORGES" />
+        </label>
+
+        <label>Nome da campanha
+          <input id="campaignInput" name="campaignName" placeholder="Campanha Premiada" />
+        </label>
+
+        <label class="span-2">Título
+          <input id="headlineInput" name="headline" placeholder="Parabéns, {nome}!" />
+        </label>
+
+        <label class="span-2">Mensagem
+          <textarea id="messageInput" name="message" rows="3" placeholder="Mensagem exibida no site"></textarea>
+        </label>
+
+        <label>Valor
+          <input id="valueInput" name="prizeValue" placeholder="R$ 1.500,00" />
+        </label>
+
+        <label>Forma exibida
+          <select id="paymentTypeInput" name="paymentType">
+            <option value="pix">PIX</option>
+            <option value="barcode">Código / linha digitável</option>
+          </select>
+        </label>
+
+        <label class="span-2">PIX copia e cola
+          <textarea id="pixInput" name="pixCode" rows="3" placeholder="Cole aqui o payload PIX"></textarea>
+        </label>
+
+        <label class="span-2">Linha digitável / código
+          <input id="barcodeInput" name="barcodeCode" placeholder="00000.00000 00000.000000 ..." />
+        </label>
+
+        <label class="span-2">Beneficiário
+          <input id="recipientInput" name="recipientName" placeholder="Nome de quem receberá o pagamento" />
+        </label>
+
+        <label>Texto do botão
+          <input id="buttonTextInput" name="buttonText" placeholder="Continuar" />
+        </label>
+
+        <label>Link do botão
+          <input id="buttonLinkInput" name="buttonLink" placeholder="https://..." />
+        </label>
+
+        <div class="span-2 action-row">
+          <button class="button secondary" id="restoreButton" type="button">Restaurar</button>
+          <button class="button primary" type="submit">Salvar alterações</button>
+        </div>
+      </form>
+
+      <div class="notice-box">
+        <strong>Modo de teste</strong>
+        <p>Este primeiro deploy salva as configurações no navegador para você testar o painel e a página pública. A próxima etapa é conectar ao Supabase para as mudanças valerem para todos os visitantes.</p>
+      </div>
+
+      <a class="button secondary full" href="index.html">Abrir página pública</a>
+    </section>
+  </main>
+
+  <script src="assets/admin.js"></script>
+</body>
+</html>
