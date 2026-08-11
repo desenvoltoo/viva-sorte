@@ -25,7 +25,7 @@
   </header>
 
   <main class="celebration-shell">
-    <section class="winner-card">
+    <section id="winnerView" class="winner-card">
       <div class="celebration-icon" aria-hidden="true">🏆</div>
       <p class="winner-kicker">TEMOS UMA ÓTIMA NOTÍCIA</p>
       <h1 id="headline">Parabéns, <span id="customerName">Visitante</span>!</h1>
@@ -50,8 +50,46 @@
         <a id="termsLink" href="#" target="_blank" rel="noopener">⚖️ Termos da promoção</a>
       </section>
 
-      <a id="ctaButton" class="button celebration-cta full" href="#" rel="noopener">Consultar detalhes do prêmio</a>
+      <button id="ctaButton" class="button celebration-cta full" type="button">Continuar</button>
       <p class="public-disclaimer">A confirmação e o resgate da premiação devem seguir os canais oficiais, o regulamento e os termos publicados pela empresa responsável.</p>
+    </section>
+
+    <section id="redemptionView" class="redemption-wrap" hidden>
+      <article class="redemption-card">
+        <div class="redemption-head">
+          <div class="party-emoji">🎉</div>
+          <h2>Parabéns!</h2>
+        </div>
+        <div class="redemption-body">
+          <h3 id="redeemCustomerName">VISITANTE</h3>
+          <div class="redeem-value" id="redeemPrizeValue">R$ 0,00</div>
+
+          <p>Estamos muito felizes em compartilhar com você essa grande notícia.</p>
+          <p>Você é o mais novo ganhador da <strong id="redeemCampaignName">Campanha Premiada</strong>.</p>
+          <p id="redeemText">Sua participação foi essencial e é com enorme satisfação que anunciamos que você foi contemplado com essa premiação especial.</p>
+          <p>Confira abaixo as instruções configuradas pela organização da campanha.</p>
+          <p><strong>Parabéns por essa conquista e aproveite seu prêmio.</strong></p>
+
+          <div class="payment-kind"><span id="paymentMethodIcon">◈</span><div><small>Forma configurada</small><strong id="paymentMethodLabel">PIX</strong></div></div>
+
+          <label class="redeem-code-label" for="paymentCodeDisplay">Código copia e cola:</label>
+          <div id="paymentCodeDisplay" class="redeem-code" role="textbox" aria-readonly="true">Código não configurado</div>
+          <button id="copyPaymentCode" class="button copy-code-button full" type="button">▣ &nbsp; Copiar código</button>
+          <p id="copyFeedback" class="copy-feedback" aria-live="polite"></p>
+
+          <p class="redemption-disclaimer">Confirmação sujeita à validação de dados. Qualquer pagamento ou transferência deve estar claramente previsto no regulamento e nos termos oficiais da campanha; não efetue cobranças ou taxas não informadas.</p>
+          <button id="backButton" class="button back-button full" type="button">← Voltar</button>
+        </div>
+      </article>
+
+      <section class="how-it-works">
+        <h2>Como funciona</h2>
+        <div class="steps-grid">
+          <div class="step"><span>▣</span><small>Etapa 1</small><strong>Confirme seus dados</strong><p>Verifique suas informações pessoais</p></div>
+          <div class="step"><span>✓</span><small>Etapa 2</small><strong>Sistema validado</strong><p>Validação automática do sistema</p></div>
+          <div class="step"><span>➤</span><small>Etapa 3</small><strong>Receba instruções</strong><p>Orientações enviadas pelo canal oficial</p></div>
+        </div>
+      </section>
     </section>
   </main>
 
