@@ -9,29 +9,18 @@
 </head>
 <body class="celebration-page">
   <div class="party-bg" aria-hidden="true">
-    <span class="glow glow-1"></span>
-    <span class="glow glow-2"></span>
-    <span class="firework fw-1"></span>
-    <span class="firework fw-2"></span>
-    <span class="firework fw-3"></span>
-    <div class="confetti confetti-a">✦</div>
-    <div class="confetti confetti-b">●</div>
-    <div class="confetti confetti-c">★</div>
-    <div class="confetti confetti-d">◆</div>
-    <div class="confetti confetti-e">✦</div>
-    <div class="confetti confetti-f">●</div>
+    <span class="glow glow-1"></span><span class="glow glow-2"></span>
+    <span class="firework fw-1"></span><span class="firework fw-2"></span><span class="firework fw-3"></span>
+    <div class="confetti confetti-a">✦</div><div class="confetti confetti-b">●</div><div class="confetti confetti-c">★</div><div class="confetti confetti-d">◆</div><div class="confetti confetti-e">✦</div><div class="confetti confetti-f">●</div>
   </div>
 
   <header class="public-header">
     <div class="public-header-inner">
       <div class="public-brand">
         <span class="public-logo">★</span>
-        <div>
-          <strong id="campaignName">Campanha Premiada</strong>
-          <small>Portal oficial da campanha</small>
-        </div>
+        <div><strong id="campaignName">Campanha Premiada</strong><small>Portal oficial de resgate</small></div>
       </div>
-      <span class="verified-badge">✓ Campanha verificada</span>
+      <span class="verified-badge">✓ Informações da campanha</span>
     </div>
   </header>
 
@@ -48,46 +37,25 @@
         <small>Valor informado pela organização da campanha</small>
       </div>
 
-      <div class="celebration-strip" aria-hidden="true">
-        <span>🎉</span><span>✨</span><span>🎊</span><span>⭐</span><span>🎁</span>
-      </div>
+      <div class="celebration-strip" aria-hidden="true"><span>🎉</span><span>✨</span><span>🎊</span><span>⭐</span><span>🎁</span></div>
 
       <section class="campaign-info">
-        <div class="info-item">
-          <span class="info-icon">✓</span>
-          <div>
-            <strong>Premiação registrada</strong>
-            <small>Informações disponíveis para conferência</small>
-          </div>
-        </div>
-        <div class="info-item">
-          <span class="info-icon">🔒</span>
-          <div>
-            <strong>Ambiente de consulta</strong>
-            <small>Confira os dados oficiais antes de prosseguir</small>
-          </div>
-        </div>
-        <div class="info-item">
-          <span class="info-icon">📄</span>
-          <div>
-            <strong>Regulamento da campanha</strong>
-            <small>Consulte as condições e critérios aplicáveis</small>
-          </div>
-        </div>
+        <div class="info-item"><span class="info-icon">🏢</span><div><strong id="companyName">Empresa responsável</strong><small id="cnpj">CNPJ não informado</small></div></div>
+        <div class="info-item"><span class="info-icon">☎</span><div><strong>Canal oficial de atendimento</strong><small id="contact">Contato não informado</small></div></div>
+        <div class="info-item"><span class="info-icon">🔎</span><div><strong>Código de validação</strong><small id="validationCode">Não informado</small></div></div>
+      </section>
+
+      <section class="legal-links">
+        <a id="regulationLink" href="#" target="_blank" rel="noopener">📄 Ver regulamento</a>
+        <a id="termsLink" href="#" target="_blank" rel="noopener">⚖️ Termos da promoção</a>
       </section>
 
       <a id="ctaButton" class="button celebration-cta full" href="#" rel="noopener">Consultar detalhes do prêmio</a>
-
-      <p class="public-disclaimer">
-        Este portal apresenta informações da campanha. A confirmação de qualquer premiação deve ser feita pelos canais oficiais e conforme o regulamento vigente.
-      </p>
+      <p class="public-disclaimer">A confirmação e o resgate da premiação devem seguir os canais oficiais, o regulamento e os termos publicados pela empresa responsável.</p>
     </section>
   </main>
 
-  <footer class="public-footer">
-    <p>© <span id="currentYear"></span> <span id="footerCampaignName">Campanha Premiada</span> · Todos os direitos reservados</p>
-  </footer>
-
+  <footer class="public-footer"><p>© <span id="currentYear"></span> <span id="footerCampaignName">Campanha Premiada</span> · Todos os direitos reservados</p></footer>
   <script src="assets/app.js"></script>
 </body>
 </html>
