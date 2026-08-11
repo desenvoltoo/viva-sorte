@@ -3,67 +3,91 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#09152f" />
   <title>Campanha Premiada</title>
   <link rel="stylesheet" href="assets/style.css" />
 </head>
-<body>
-  <main class="page-shell">
-    <section class="hero-card">
-      <div class="brand-row">
-        <div class="brand-badge">★</div>
+<body class="celebration-page">
+  <div class="party-bg" aria-hidden="true">
+    <span class="glow glow-1"></span>
+    <span class="glow glow-2"></span>
+    <span class="firework fw-1"></span>
+    <span class="firework fw-2"></span>
+    <span class="firework fw-3"></span>
+    <div class="confetti confetti-a">✦</div>
+    <div class="confetti confetti-b">●</div>
+    <div class="confetti confetti-c">★</div>
+    <div class="confetti confetti-d">◆</div>
+    <div class="confetti confetti-e">✦</div>
+    <div class="confetti confetti-f">●</div>
+  </div>
+
+  <header class="public-header">
+    <div class="public-header-inner">
+      <div class="public-brand">
+        <span class="public-logo">★</span>
         <div>
-          <p class="eyebrow" id="campaignName">Campanha Premiada</p>
-          <h1 id="headline">Parabéns, <span id="customerName">Visitante</span>!</h1>
+          <strong id="campaignName">Campanha Premiada</strong>
+          <small>Portal oficial da campanha</small>
         </div>
       </div>
+      <span class="verified-badge">✓ Campanha verificada</span>
+    </div>
+  </header>
 
-      <p class="lead" id="message">Você possui uma condição especial disponível para consulta.</p>
+  <main class="celebration-shell">
+    <section class="winner-card">
+      <div class="celebration-icon" aria-hidden="true">🏆</div>
+      <p class="winner-kicker">TEMOS UMA ÓTIMA NOTÍCIA</p>
+      <h1 id="headline">Parabéns, <span id="customerName">Visitante</span>!</h1>
+      <p class="winner-lead" id="message">Seu nome está vinculado a uma premiação desta campanha.</p>
 
-      <div class="prize-box">
-        <span>Valor informado</span>
+      <div class="prize-highlight">
+        <span class="prize-caption">VALOR DA PREMIAÇÃO</span>
         <strong id="prizeValue">R$ 0,00</strong>
+        <small>Valor informado pela organização da campanha</small>
       </div>
 
-      <section class="payment-card" id="paymentCard">
-        <div class="payment-head">
+      <div class="celebration-strip" aria-hidden="true">
+        <span>🎉</span><span>✨</span><span>🎊</span><span>⭐</span><span>🎁</span>
+      </div>
+
+      <section class="campaign-info">
+        <div class="info-item">
+          <span class="info-icon">✓</span>
           <div>
-            <span class="section-label">Dados de pagamento</span>
-            <h2 id="paymentTitle">PIX</h2>
-          </div>
-          <span class="status-pill">Configurável</span>
-        </div>
-
-        <div id="pixArea">
-          <div id="qrCode" class="qr-box" aria-label="QR Code PIX"></div>
-          <label class="field-label">PIX copia e cola</label>
-          <div class="copy-row">
-            <input id="pixCode" readonly value="" />
-            <button id="copyPix" class="button secondary" type="button">Copiar PIX</button>
+            <strong>Premiação registrada</strong>
+            <small>Informações disponíveis para conferência</small>
           </div>
         </div>
-
-        <div id="barcodeArea" hidden>
-          <label class="field-label">Linha digitável / código</label>
-          <div class="copy-row">
-            <input id="barcodeCode" readonly value="" />
-            <button id="copyBarcode" class="button secondary" type="button">Copiar código</button>
+        <div class="info-item">
+          <span class="info-icon">🔒</span>
+          <div>
+            <strong>Ambiente de consulta</strong>
+            <small>Confira os dados oficiais antes de prosseguir</small>
           </div>
         </div>
-
-        <div class="recipient-box">
-          <span>Beneficiário informado</span>
-          <strong id="recipientName">Não informado</strong>
+        <div class="info-item">
+          <span class="info-icon">📄</span>
+          <div>
+            <strong>Regulamento da campanha</strong>
+            <small>Consulte as condições e critérios aplicáveis</small>
+          </div>
         </div>
       </section>
 
-      <a id="ctaButton" class="button primary full" href="#" rel="noopener">Continuar</a>
-      <p class="safe-note">Confira sempre o beneficiário e os dados antes de realizar qualquer pagamento.</p>
+      <a id="ctaButton" class="button celebration-cta full" href="#" rel="noopener">Consultar detalhes do prêmio</a>
+
+      <p class="public-disclaimer">
+        Este portal apresenta informações da campanha. A confirmação de qualquer premiação deve ser feita pelos canais oficiais e conforme o regulamento vigente.
+      </p>
     </section>
   </main>
 
-  <a class="admin-link" href="admin.html">Painel</a>
+  <footer class="public-footer">
+    <p>© <span id="currentYear"></span> <span id="footerCampaignName">Campanha Premiada</span> · Todos os direitos reservados</p>
+  </footer>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <script src="assets/app.js"></script>
 </body>
 </html>
