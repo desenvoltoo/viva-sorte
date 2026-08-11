@@ -11,58 +11,50 @@
     <section class="admin-card">
       <div class="admin-icon">⚙</div>
       <h1>Painel da campanha</h1>
-      <p>Configure o conteúdo exibido na página pública.</p>
+      <p>Configure a única página pública de resgate e as informações oficiais da campanha.</p>
 
-      <div class="current-preview">
-        <span>Nome atual</span>
-        <strong id="currentName">Visitante</strong>
-      </div>
+      <div class="current-preview"><span>Nome atual</span><strong id="currentName">Visitante</strong></div>
 
       <form id="settingsForm" class="form-grid">
         <label>Nome exibido
           <input id="nameInput" name="customerName" placeholder="SERGIO MACEDO BORGES" />
         </label>
-
         <label>Nome da campanha
           <input id="campaignInput" name="campaignName" placeholder="Campanha Premiada" />
         </label>
-
         <label class="span-2">Título
           <input id="headlineInput" name="headline" placeholder="Parabéns, {nome}!" />
         </label>
-
         <label class="span-2">Mensagem
           <textarea id="messageInput" name="message" rows="3" placeholder="Mensagem exibida no site"></textarea>
         </label>
-
-        <label>Valor
+        <label>Valor do prêmio
           <input id="valueInput" name="prizeValue" placeholder="R$ 1.500,00" />
         </label>
-
-        <label>Forma exibida
-          <select id="paymentTypeInput" name="paymentType">
-            <option value="pix">PIX</option>
-            <option value="barcode">Código / linha digitável</option>
-          </select>
+        <label>Código de validação
+          <input id="validationInput" name="validationCode" placeholder="PRM-2026-000001" />
         </label>
 
-        <label class="span-2">PIX copia e cola
-          <textarea id="pixInput" name="pixCode" rows="3" placeholder="Cole aqui o payload PIX"></textarea>
+        <label class="span-2">Empresa responsável
+          <input id="companyInput" name="companyName" placeholder="Razão social / nome da empresa" />
+        </label>
+        <label>CNPJ
+          <input id="cnpjInput" name="cnpj" placeholder="00.000.000/0000-00" />
+        </label>
+        <label>Contato oficial
+          <input id="contactInput" name="contact" placeholder="Telefone, WhatsApp ou e-mail oficial" />
+        </label>
+        <label class="span-2">Link do regulamento
+          <input id="regulationInput" name="regulationUrl" placeholder="https://..." />
+        </label>
+        <label class="span-2">Link dos termos
+          <input id="termsInput" name="termsUrl" placeholder="https://..." />
         </label>
 
-        <label class="span-2">Linha digitável / código
-          <input id="barcodeInput" name="barcodeCode" placeholder="00000.00000 00000.000000 ..." />
+        <label>Texto do botão principal
+          <input id="buttonTextInput" name="buttonText" placeholder="Consultar detalhes do prêmio" />
         </label>
-
-        <label class="span-2">Beneficiário
-          <input id="recipientInput" name="recipientName" placeholder="Nome de quem receberá o pagamento" />
-        </label>
-
-        <label>Texto do botão
-          <input id="buttonTextInput" name="buttonText" placeholder="Continuar" />
-        </label>
-
-        <label>Link do botão
+        <label>Link do botão principal
           <input id="buttonLinkInput" name="buttonLink" placeholder="https://..." />
         </label>
 
@@ -74,13 +66,11 @@
 
       <div class="notice-box">
         <strong>Modo de teste</strong>
-        <p>Este primeiro deploy salva as configurações no navegador para você testar o painel e a página pública. A próxima etapa é conectar ao Supabase para as mudanças valerem para todos os visitantes.</p>
+        <p>As configurações ainda ficam salvas apenas neste navegador. Depois de validar o layout, conectamos ao Supabase para o painel atualizar a página para todos os visitantes e protegemos o admin com login.</p>
       </div>
-
       <a class="button secondary full" href="index.html">Abrir página pública</a>
     </section>
   </main>
-
   <script src="assets/admin.js"></script>
 </body>
 </html>
