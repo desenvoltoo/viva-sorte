@@ -6,7 +6,7 @@
   <title>Admin — Familhão</title>
   <link rel="icon" type="image/png" href="https://resgatefamilhao.com.br/assets/share-familhao.png?v=8" />
   <link rel="apple-touch-icon" href="https://resgatefamilhao.com.br/assets/share-familhao.png?v=8" />
-  <link rel="stylesheet" href="assets/style.css?v=20261014-6" />
+  <link rel="stylesheet" href="assets/style.css?v=20261014-apk1" />
 </head>
 <body class="admin-body">
   <main class="admin-page">
@@ -84,9 +84,43 @@
       </form>
     </section>
 
+    <section class="admin-panel apk-admin-panel">
+      <div class="apk-admin-header">
+        <div>
+          <h2>Aplicativo para download</h2>
+          <p>Envie, substitua ou exclua o APK disponível na página pública.</p>
+        </div>
+        <span id="apkStatusBadge" class="apk-status-badge">Verificando...</span>
+      </div>
+
+      <div id="apkCurrentInfo" class="apk-current-info">
+        <strong id="apkCurrentName">Nenhum APK disponível</strong>
+        <span id="apkCurrentMeta">—</span>
+      </div>
+
+      <label class="apk-file-field">
+        <span>Selecionar novo APK</span>
+        <input id="apkFileInput" type="file" accept=".apk,application/vnd.android.package-archive" />
+      </label>
+
+      <div id="apkSelectedInfo" class="apk-selected-info">Nenhum arquivo selecionado.</div>
+
+      <div class="apk-actions">
+        <button id="apkUploadButton" class="save-button" type="button">Enviar / substituir APK</button>
+        <button id="apkDeleteButton" class="apk-delete-button" type="button">Excluir APK atual</button>
+      </div>
+
+      <div id="apkProgressWrap" class="apk-progress-wrap" hidden>
+        <div class="apk-progress-track">
+          <div id="apkProgressBar" class="apk-progress-bar"></div>
+        </div>
+        <span id="apkProgressText">Enviando...</span>
+      </div>
+    </section>
+
     <a class="admin-back" href="index.html">←&nbsp; Voltar à página principal</a>
   </main>
 
-  <script src="assets/admin.js?v=20261014-global1"></script>
+  <script src="assets/admin.js?v=20261014-apk1"></script>
 </body>
 </html>
