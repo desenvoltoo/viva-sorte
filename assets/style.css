@@ -85,3 +85,13 @@ button,input,textarea,select{font:inherit}
   .admin-panel{padding:25px 22px}
   .admin-actions{grid-template-columns:1fr}
 }
+
+/* Confetti de abertura */
+.confetti-layer{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:9999}
+.confetti-piece{position:absolute;top:-28px;display:block;background:var(--c);border-radius:2px;opacity:.96;transform:rotate(var(--r));animation:confettiFall linear forwards;will-change:transform,top,opacity}
+@keyframes confettiFall{
+  0%{top:-28px;transform:translate3d(0,-10px,0) rotate(var(--r));opacity:1}
+  82%{opacity:1}
+  100%{top:108vh;transform:translate3d(var(--drift),0,0) rotate(calc(var(--r) + 760deg));opacity:0}
+}
+@media (prefers-reduced-motion:reduce){.confetti-layer{display:none}}
