@@ -1,4 +1,6 @@
 const STORAGE_KEY='campanha-premiada-settings';
+const CHANNEL_NAME='campanha-premiada-sync';
+
 const defaults={
   customerName:'VERA LÚCIA APARECIDA GNANI',
   campaignName:'Familhão da Lotérica',
@@ -10,8 +12,10 @@ const defaults={
   companyName:'Empresa responsável',
   cnpj:'49.520.113/0001-07',
   regulationUrl:'#',
-  termsUrl:'#'
+  termsUrl:'#',
+  updatedAt:0
 };
+
 const ids={
   customerName:'nameInput',
   prizeValue:'valueInput',
@@ -25,19 +29,84 @@ const ids={
   regulationUrl:'regulationInput',
   termsUrl:'termsInput'
 };
-function load(){try{const s={...defaults,...JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}')};if(s.cnpj==='CNPJ não informado')s.cnpj=defaults.cnpj;return s}catch{return {...defaults}}}
-function populate(){const s=load();Object.entries(ids).forEach(([k,id])=>{const el=document.getElementById(id);if(el)el.value=s[k]??''})}
-function toast(msg){const t=document.createElement('div');t.className='toast';t.textContent=msg;document.body.appendChild(t);setTimeout(()=>t.remove(),1800)}
+
+function readRaw(){
+  try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}')||{}}
+  catch{return {}}
+}
+function load(){
+  const s={...defaults,...readRaw()};
+  if(s.cnpj==='CNPJ não informado') s.cnpj=defaults.cnpj;
+  return s;
+}
+function populate(){
+  const s=load();
+  Object.entries(ids).forEach(([k,id])=>{
+    const el=document.getElementById(id);
+    if(el) el.value=s[k]??'';
+  });
+}
+function toast(msg){
+  const t=document.createElement('div');
+  t.className='toast';
+  t.textContent=msg;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(),1800);
+}
+
+let channel=null;
+try{channel=new BroadcastChannel(CHANNEL_NAME)}catch{}
+
+function saveSettings(){
+  const current=load();
+  const next={...current};
+  Object.entries(ids).forEach(([k,id])=>{
+    const el=document.getElementById(id);
+    next[k]=(el?.value??'').trim();
+  });
+  next.updatedAt=Date.now();
+
+  // grava de forma atômica e valida imediatamente
+  const serialized=JSON.stringify(next);
+  localStorage.setItem(STORAGE_KEY,serialized);
+  const check=localStorage.getItem(STORAGE_KEY);
+  if(check!==serialized) throw new Error('Falha ao confirmar gravação local');
+
+  try{channel?.postMessage({type:'settings-updated',updatedAt:next.updatedAt})}catch{}
+  return next;
+}
+
 document.getElementById('settingsForm').addEventListener('submit',e=>{
   e.preventDefault();
-  const s={};
-  Object.entries(ids).forEach(([k,id])=>s[k]=document.getElementById(id).value.trim());
-  localStorage.setItem(STORAGE_KEY,JSON.stringify(s));
-  toast('Alterações salvas');
+  try{
+    saveSettings();
+    toast('Alterações salvas e sincronizadas');
+  }catch(err){
+    console.error(err);
+    toast('Não foi possível salvar. Verifique o armazenamento do navegador.');
+  }
 });
+
 document.getElementById('restoreButton').addEventListener('click',()=>{
-  localStorage.removeItem(STORAGE_KEY);
-  populate();
-  toast('Padrão restaurado');
+  try{
+    localStorage.setItem(STORAGE_KEY,JSON.stringify({...defaults,updatedAt:Date.now()}));
+    populate();
+    try{channel?.postMessage({type:'settings-updated',updatedAt:Date.now()})}catch{}
+    toast('Padrão restaurado e sincronizado');
+  }catch(err){
+    console.error(err);
+    toast('Não foi possível restaurar.');
+  }
 });
+
+// Se outra aba alterar, atualiza o formulário também.
+window.addEventListener('storage',e=>{
+  if(e.key===STORAGE_KEY) populate();
+});
+try{
+  if(channel) channel.onmessage=event=>{
+    if(event.data?.type==='settings-updated') populate();
+  };
+}catch{}
+
 populate();
