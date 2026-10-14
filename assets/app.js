@@ -57,8 +57,29 @@ async function copyCode(){
   feedback.textContent='Código copiado.';
   setTimeout(()=>feedback.textContent='',1800);
 }
+function launchConfetti(){
+  const layer=document.getElementById('confettiLayer');
+  if(!layer || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const colors=['#c61fb0','#ff8a4c','#ffcf3f','#7a2cff','#1ec8a5','#ff4f87'];
+  const count=90;
+  for(let i=0;i<count;i++){
+    const piece=document.createElement('i');
+    piece.className='confetti-piece';
+    piece.style.left=(Math.random()*100)+'vw';
+    piece.style.setProperty('--c',colors[Math.floor(Math.random()*colors.length)]);
+    piece.style.setProperty('--r',(Math.random()*360)+'deg');
+    piece.style.setProperty('--drift',((Math.random()*180)-90)+'px');
+    piece.style.animationDelay=(Math.random()*.65)+'s';
+    piece.style.animationDuration=(2.6+Math.random()*1.8)+'s';
+    piece.style.width=(6+Math.random()*7)+'px';
+    piece.style.height=(10+Math.random()*10)+'px';
+    layer.appendChild(piece);
+  }
+  setTimeout(()=>layer.replaceChildren(),5200);
+}
 document.getElementById('ctaButton')?.addEventListener('click',showRedemption);
 document.getElementById('backButton')?.addEventListener('click',showWinner);
 document.getElementById('copyPaymentCode')?.addEventListener('click',copyCode);
 render();
+launchConfetti();
 window.addEventListener('storage',render);
