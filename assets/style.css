@@ -18,7 +18,7 @@ button,input,textarea,select{font:inherit}
 .public-body{position:relative;isolation:isolate;background:#f7f5f0}
 .public-body::before,.public-body::after{content:"";position:fixed;inset:0;pointer-events:none}
 .public-body::before{z-index:-2;background-image:url('background-familhao.jpeg');background-size:cover;background-position:center;background-repeat:no-repeat}
-.public-body::after{z-index:-1;background:rgba(247,245,240,.65)}
+.public-body::after{z-index:-1;background:rgba(247,245,240,.20)}
 .public-body .public-shell{position:relative;z-index:1}
 .public-body .how-section>h2{width:fit-content;margin-left:auto;margin-right:auto;padding:6px 16px;border-radius:12px;background:rgba(255,255,255,.9)}
 .public-body .official-info{border-radius:14px;background:rgba(255,255,255,.92)}
