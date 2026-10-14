@@ -1,5 +1,5 @@
+const API_URL='https://viva-sorte-api.matheuscosta-tecnologia.workers.dev/config';
 const STORAGE_KEY='campanha-premiada-settings';
-const CHANNEL_NAME='campanha-premiada-sync';
 
 const defaults={
   customerName:'VERA LÚCIA APARECIDA GNANI',
@@ -12,40 +12,30 @@ const defaults={
   companyName:'Empresa responsável',
   cnpj:'49.520.113/0001-07',
   regulationUrl:'#',
-  termsUrl:'#',
-  updatedAt:0
+  termsUrl:'#'
 };
 
-function readRaw(){
-  try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}')||{}}
-  catch{return {}}
-}
-function load(){
-  const s={...defaults,...readRaw()};
-  if(s.cnpj==='CNPJ não informado') s.cnpj=defaults.cnpj;
-  return s;
-}
-function setText(id,value){const el=document.getElementById(id);if(el)el.textContent=value||''}
+let settings={...defaults};
 
-let lastSignature='';
-function render(force=false){
-  const s=load();
-  const signature=JSON.stringify(s);
-  if(!force && signature===lastSignature) return;
-  lastSignature=signature;
+function setText(id,value){
+  const el=document.getElementById(id);
+  if(el) el.textContent=value||'';
+}
 
+function render(){
+  const s=settings;
   setText('customerName',(s.customerName||defaults.customerName).toUpperCase());
-  setText('campaignName',s.campaignName);
-  setText('message',s.message);
-  setText('prizeValue',s.prizeValue);
+  setText('campaignName',s.campaignName||defaults.campaignName);
+  setText('message',s.message||defaults.message);
+  setText('prizeValue',s.prizeValue||defaults.prizeValue);
   setText('redeemCustomerName',(s.customerName||defaults.customerName).toUpperCase());
-  setText('redeemCampaignName',s.campaignName);
-  setText('redeemText',s.redemptionText||s.message);
-  setText('redeemPrizeValue',s.prizeValue);
+  setText('redeemCampaignName',s.campaignName||defaults.campaignName);
+  setText('redeemText',s.redemptionText||s.message||defaults.redemptionText);
+  setText('redeemPrizeValue',s.prizeValue||defaults.prizeValue);
   setText('paymentMethodLabel',s.paymentMethod==='boleto'?'Boleto':'PIX');
   setText('paymentCodeDisplay',s.paymentCode||'Código não configurado');
-  setText('companyName',s.companyName);
-  setText('cnpj',s.cnpj);
+  setText('companyName',s.companyName||defaults.companyName);
+  setText('cnpj',s.cnpj||defaults.cnpj);
 
   const regulation=document.getElementById('regulationLink');
   if(regulation) regulation.href=s.regulationUrl||'#';
@@ -53,28 +43,60 @@ function render(force=false){
   if(terms) terms.href=s.termsUrl||'#';
 }
 
+async function loadGlobalConfig(){
+  try{
+    const response=await fetch(API_URL+'?t='+Date.now(),{
+      method:'GET',
+      cache:'no-store',
+      headers:{'Accept':'application/json'}
+    });
+    if(!response.ok) throw new Error('HTTP '+response.status);
+    const remote=await response.json();
+    settings={...defaults,...remote};
+    try{localStorage.setItem(STORAGE_KEY,JSON.stringify(settings))}catch{}
+  }catch(error){
+    console.error('Falha ao carregar configuração global:',error);
+    try{
+      settings={...defaults,...JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}')};
+    }catch{
+      settings={...defaults};
+    }
+  }
+  render();
+}
+
 function showRedemption(){
   document.getElementById('winnerView').hidden=true;
   document.getElementById('redemptionView').hidden=false;
-  render(true);
+  render();
   window.scrollTo({top:0,behavior:'smooth'});
 }
+
 function showWinner(){
   document.getElementById('redemptionView').hidden=true;
   document.getElementById('winnerView').hidden=false;
-  render(true);
+  render();
   window.scrollTo({top:0,behavior:'smooth'});
 }
+
 async function copyCode(){
-  const s=load();
-  const code=(s.paymentCode||'').trim();
+  const code=(settings.paymentCode||'').trim();
   const feedback=document.getElementById('copyFeedback');
-  if(!code){feedback.textContent='Nenhum código foi configurado no painel.';return}
-  try{await navigator.clipboard.writeText(code)}
-  catch{
+  if(!code){
+    feedback.textContent='Nenhum código foi configurado no painel.';
+    return;
+  }
+  try{
+    await navigator.clipboard.writeText(code);
+  }catch{
     const ta=document.createElement('textarea');
-    ta.value=code; ta.style.position='fixed'; ta.style.opacity='0';
-    document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove();
+    ta.value=code;
+    ta.style.position='fixed';
+    ta.style.opacity='0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    ta.remove();
   }
   feedback.textContent='Código copiado.';
   setTimeout(()=>feedback.textContent='',1800);
@@ -87,6 +109,7 @@ function launchConfetti(){
   if(motion.matches){layer.remove();return}
   const colors=['#c61fb0','#7a2cff','#ff8a4c','#ffcf3f','#1ec8a5'];
   const fragment=document.createDocumentFragment();
+
   for(let i=0;i<120;i++){
     const piece=document.createElement('i');
     piece.className='confetti-piece';
@@ -101,42 +124,20 @@ function launchConfetti(){
     piece.style.height=(10+Math.random()*12)+'px';
     fragment.appendChild(piece);
   }
+
   layer.appendChild(fragment);
-  let cleanupTimer;
-  function cleanup(){
-    clearTimeout(cleanupTimer);
-    motion.removeEventListener?.('change',onMotionChange);
-    layer.remove();
-  }
-  function onMotionChange(event){if(event.matches) cleanup()}
-  motion.addEventListener?.('change',onMotionChange);
-  cleanupTimer=setTimeout(cleanup,5100);
+  setTimeout(()=>layer.remove(),5100);
 }
-
-// Sincronização forte entre admin e página pública no MESMO navegador/origem.
-window.addEventListener('storage',e=>{
-  if(e.key===STORAGE_KEY) render(true);
-});
-window.addEventListener('focus',()=>render(true));
-document.addEventListener('visibilitychange',()=>{
-  if(document.visibilityState==='visible') render(true);
-});
-window.addEventListener('pageshow',()=>render(true));
-
-let channel=null;
-try{
-  channel=new BroadcastChannel(CHANNEL_NAME);
-  channel.onmessage=event=>{
-    if(event.data?.type==='settings-updated') render(true);
-  };
-}catch{}
-
-// Fallback para navegadores que não propagam storage/BroadcastChannel como esperado.
-setInterval(()=>render(false),1000);
 
 document.getElementById('ctaButton')?.addEventListener('click',showRedemption);
 document.getElementById('backButton')?.addEventListener('click',showWinner);
 document.getElementById('copyPaymentCode')?.addEventListener('click',copyCode);
 
-render(true);
+render();
 launchConfetti();
+loadGlobalConfig();
+
+window.addEventListener('focus',loadGlobalConfig);
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState==='visible') loadGlobalConfig();
+});
