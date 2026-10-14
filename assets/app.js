@@ -8,12 +8,11 @@ const defaults={
   paymentCode:'',
   redemptionText:'Sua participação foi essencial e é com enorme satisfação que anunciamos que você foi contemplado com essa premiação especial.',
   companyName:'Empresa responsável',
-  cnpj:'CNPJ não informado',
-  contact:'Contato não informado',
+  cnpj:'49.520.113/0001-07',
   regulationUrl:'#',
   termsUrl:'#'
 };
-function load(){try{return {...defaults,...JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}')}}catch{return {...defaults}}}
+function load(){try{const s={...defaults,...JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}')};if(s.cnpj==='CNPJ não informado')s.cnpj=defaults.cnpj;return s}catch{return {...defaults}}}
 function setText(id,value){const el=document.getElementById(id);if(el)el.textContent=value||''}
 function render(){
   const s=load();
@@ -29,7 +28,6 @@ function render(){
   setText('paymentCodeDisplay',s.paymentCode||'Código não configurado');
   setText('companyName',s.companyName);
   setText('cnpj',s.cnpj);
-  setText('contact',s.contact);
   const regulation=document.getElementById('regulationLink'); if(regulation) regulation.href=s.regulationUrl||'#';
   const terms=document.getElementById('termsLink'); if(terms) terms.href=s.termsUrl||'#';
 }
