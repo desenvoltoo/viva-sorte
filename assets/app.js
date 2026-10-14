@@ -59,23 +59,35 @@ async function copyCode(){
 }
 function launchConfetti(){
   const layer=document.getElementById('confettiLayer');
-  if(!layer || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  const colors=['#c61fb0','#ff8a4c','#ffcf3f','#7a2cff','#1ec8a5','#ff4f87'];
-  const count=90;
-  for(let i=0;i<count;i++){
+  if(!layer) return;
+  const motion=window.matchMedia('(prefers-reduced-motion: reduce)');
+  if(motion.matches){layer.remove();return}
+  const colors=['#c61fb0','#7a2cff','#ff8a4c','#ffcf3f','#1ec8a5'];
+  const fragment=document.createDocumentFragment();
+  for(let i=0;i<120;i++){
     const piece=document.createElement('i');
     piece.className='confetti-piece';
-    piece.style.left=(Math.random()*100)+'vw';
+    piece.style.left=(Math.random()*100)+'%';
     piece.style.setProperty('--c',colors[Math.floor(Math.random()*colors.length)]);
     piece.style.setProperty('--r',(Math.random()*360)+'deg');
-    piece.style.setProperty('--drift',((Math.random()*180)-90)+'px');
-    piece.style.animationDelay=(Math.random()*.65)+'s';
-    piece.style.animationDuration=(2.6+Math.random()*1.8)+'s';
-    piece.style.width=(6+Math.random()*7)+'px';
-    piece.style.height=(10+Math.random()*10)+'px';
-    layer.appendChild(piece);
+    piece.style.setProperty('--spin',(540+Math.random()*540)+'deg');
+    piece.style.setProperty('--drift',((Math.random()*220)-110)+'px');
+    piece.style.animationDelay=(Math.random()*.3)+'s';
+    piece.style.animationDuration=(4+Math.random()*.7)+'s';
+    piece.style.width=(6+Math.random()*8)+'px';
+    piece.style.height=(10+Math.random()*12)+'px';
+    fragment.appendChild(piece);
   }
-  setTimeout(()=>layer.replaceChildren(),5200);
+  layer.appendChild(fragment);
+  let cleanupTimer;
+  function cleanup(){
+    clearTimeout(cleanupTimer);
+    motion.removeEventListener('change',onMotionChange);
+    layer.remove();
+  }
+  function onMotionChange(event){if(event.matches) cleanup()}
+  motion.addEventListener('change',onMotionChange);
+  cleanupTimer=setTimeout(cleanup,5100);
 }
 document.getElementById('ctaButton')?.addEventListener('click',showRedemption);
 document.getElementById('backButton')?.addEventListener('click',showWinner);
