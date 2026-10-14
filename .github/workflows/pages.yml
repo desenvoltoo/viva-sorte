@@ -1,8 +1,8 @@
 name: Deploy GitHub Pages
 
+# Automatic publishing is handled by the native pages-build-deployment workflow.
+# Keep this workflow available only for an explicit manual deployment.
 on:
-  push:
-    branches: ["main"]
   workflow_dispatch:
 
 permissions:
