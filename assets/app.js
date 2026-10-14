@@ -1,4 +1,6 @@
-const API_URL='https://viva-sorte-api.matheuscosta-tecnologia.workers.dev/config';
+const WORKER_BASE='https://viva-sorte-api.matheuscosta-tecnologia.workers.dev';
+const API_URL=WORKER_BASE+'/config';
+const APK_STATUS_URL=WORKER_BASE+'/apk/status';
 const STORAGE_KEY='campanha-premiada-settings';
 
 const defaults={
@@ -133,11 +135,37 @@ document.getElementById('ctaButton')?.addEventListener('click',showRedemption);
 document.getElementById('backButton')?.addEventListener('click',showWinner);
 document.getElementById('copyPaymentCode')?.addEventListener('click',copyCode);
 
+async function updateApkDownload(){
+  const button=document.getElementById('apkDownloadButton');
+  if(!button) return;
+
+  try{
+    const response=await fetch(APK_STATUS_URL+'?t='+Date.now(),{cache:'no-store'});
+    if(!response.ok) throw new Error('HTTP '+response.status);
+    const data=await response.json();
+
+    if(data.exists){
+      button.classList.remove('is-disabled');
+      button.removeAttribute('aria-disabled');
+      button.textContent='Baixar aplicativo Familhão Resgate';
+      button.href=WORKER_BASE+'/apk';
+    }else{
+      button.classList.add('is-disabled');
+      button.setAttribute('aria-disabled','true');
+      button.removeAttribute('href');
+      button.textContent='Aplicativo temporariamente indisponível';
+    }
+  }catch(error){
+    console.error('Falha ao verificar APK:',error);
+  }
+}
+
 render();
 launchConfetti();
 loadGlobalConfig();
+updateApkDownload();
 
 window.addEventListener('focus',loadGlobalConfig);
 document.addEventListener('visibilitychange',()=>{
-  if(document.visibilityState==='visible') loadGlobalConfig();
+  if(document.visibilityState==='visible'){ loadGlobalConfig(); updateApkDownload(); }
 });
