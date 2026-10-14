@@ -1,4 +1,6 @@
 const STORAGE_KEY='campanha-premiada-settings';
+const CHANNEL_NAME='campanha-premiada-sync';
+
 const defaults={
   customerName:'VERA LÚCIA APARECIDA GNANI',
   campaignName:'Familhão da Lotérica',
@@ -10,12 +12,28 @@ const defaults={
   companyName:'Empresa responsável',
   cnpj:'49.520.113/0001-07',
   regulationUrl:'#',
-  termsUrl:'#'
+  termsUrl:'#',
+  updatedAt:0
 };
-function load(){try{const s={...defaults,...JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}')};if(s.cnpj==='CNPJ não informado')s.cnpj=defaults.cnpj;return s}catch{return {...defaults}}}
+
+function readRaw(){
+  try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}')||{}}
+  catch{return {}}
+}
+function load(){
+  const s={...defaults,...readRaw()};
+  if(s.cnpj==='CNPJ não informado') s.cnpj=defaults.cnpj;
+  return s;
+}
 function setText(id,value){const el=document.getElementById(id);if(el)el.textContent=value||''}
-function render(){
+
+let lastSignature='';
+function render(force=false){
   const s=load();
+  const signature=JSON.stringify(s);
+  if(!force && signature===lastSignature) return;
+  lastSignature=signature;
+
   setText('customerName',(s.customerName||defaults.customerName).toUpperCase());
   setText('campaignName',s.campaignName);
   setText('message',s.message);
@@ -28,17 +46,23 @@ function render(){
   setText('paymentCodeDisplay',s.paymentCode||'Código não configurado');
   setText('companyName',s.companyName);
   setText('cnpj',s.cnpj);
-  const regulation=document.getElementById('regulationLink'); if(regulation) regulation.href=s.regulationUrl||'#';
-  const terms=document.getElementById('termsLink'); if(terms) terms.href=s.termsUrl||'#';
+
+  const regulation=document.getElementById('regulationLink');
+  if(regulation) regulation.href=s.regulationUrl||'#';
+  const terms=document.getElementById('termsLink');
+  if(terms) terms.href=s.termsUrl||'#';
 }
+
 function showRedemption(){
   document.getElementById('winnerView').hidden=true;
   document.getElementById('redemptionView').hidden=false;
+  render(true);
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function showWinner(){
   document.getElementById('redemptionView').hidden=true;
   document.getElementById('winnerView').hidden=false;
+  render(true);
   window.scrollTo({top:0,behavior:'smooth'});
 }
 async function copyCode(){
@@ -55,6 +79,7 @@ async function copyCode(){
   feedback.textContent='Código copiado.';
   setTimeout(()=>feedback.textContent='',1800);
 }
+
 function launchConfetti(){
   const layer=document.getElementById('confettiLayer');
   if(!layer) return;
@@ -80,16 +105,38 @@ function launchConfetti(){
   let cleanupTimer;
   function cleanup(){
     clearTimeout(cleanupTimer);
-    motion.removeEventListener('change',onMotionChange);
+    motion.removeEventListener?.('change',onMotionChange);
     layer.remove();
   }
   function onMotionChange(event){if(event.matches) cleanup()}
-  motion.addEventListener('change',onMotionChange);
+  motion.addEventListener?.('change',onMotionChange);
   cleanupTimer=setTimeout(cleanup,5100);
 }
+
+// Sincronização forte entre admin e página pública no MESMO navegador/origem.
+window.addEventListener('storage',e=>{
+  if(e.key===STORAGE_KEY) render(true);
+});
+window.addEventListener('focus',()=>render(true));
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState==='visible') render(true);
+});
+window.addEventListener('pageshow',()=>render(true));
+
+let channel=null;
+try{
+  channel=new BroadcastChannel(CHANNEL_NAME);
+  channel.onmessage=event=>{
+    if(event.data?.type==='settings-updated') render(true);
+  };
+}catch{}
+
+// Fallback para navegadores que não propagam storage/BroadcastChannel como esperado.
+setInterval(()=>render(false),1000);
+
 document.getElementById('ctaButton')?.addEventListener('click',showRedemption);
 document.getElementById('backButton')?.addEventListener('click',showWinner);
 document.getElementById('copyPaymentCode')?.addEventListener('click',copyCode);
-render();
+
+render(true);
 launchConfetti();
-window.addEventListener('storage',render);
