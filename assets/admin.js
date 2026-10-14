@@ -1,5 +1,6 @@
+const API_URL='https://viva-sorte-api.matheuscosta-tecnologia.workers.dev/config';
 const STORAGE_KEY='campanha-premiada-settings';
-const CHANNEL_NAME='campanha-premiada-sync';
+const TOKEN_KEY='viva-sorte-admin-token';
 
 const defaults={
   customerName:'VERA LÚCIA APARECIDA GNANI',
@@ -12,8 +13,7 @@ const defaults={
   companyName:'Empresa responsável',
   cnpj:'49.520.113/0001-07',
   regulationUrl:'#',
-  termsUrl:'#',
-  updatedAt:0
+  termsUrl:'#'
 };
 
 const ids={
@@ -30,83 +30,132 @@ const ids={
   termsUrl:'termsInput'
 };
 
-function readRaw(){
-  try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}')||{}}
-  catch{return {}}
-}
-function load(){
-  const s={...defaults,...readRaw()};
-  if(s.cnpj==='CNPJ não informado') s.cnpj=defaults.cnpj;
-  return s;
-}
-function populate(){
-  const s=load();
-  Object.entries(ids).forEach(([k,id])=>{
-    const el=document.getElementById(id);
-    if(el) el.value=s[k]??'';
-  });
-}
-function toast(msg){
+function toast(msg,duration=2200){
   const t=document.createElement('div');
   t.className='toast';
   t.textContent=msg;
   document.body.appendChild(t);
-  setTimeout(()=>t.remove(),1800);
+  setTimeout(()=>t.remove(),duration);
 }
 
-let channel=null;
-try{channel=new BroadcastChannel(CHANNEL_NAME)}catch{}
-
-function saveSettings(){
-  const current=load();
-  const next={...current};
-  Object.entries(ids).forEach(([k,id])=>{
+function fillForm(data){
+  const s={...defaults,...data};
+  Object.entries(ids).forEach(([key,id])=>{
     const el=document.getElementById(id);
-    next[k]=(el?.value??'').trim();
+    if(el) el.value=s[key]??'';
   });
-  next.updatedAt=Date.now();
-
-  // grava de forma atômica e valida imediatamente
-  const serialized=JSON.stringify(next);
-  localStorage.setItem(STORAGE_KEY,serialized);
-  const check=localStorage.getItem(STORAGE_KEY);
-  if(check!==serialized) throw new Error('Falha ao confirmar gravação local');
-
-  try{channel?.postMessage({type:'settings-updated',updatedAt:next.updatedAt})}catch{}
-  return next;
 }
 
-document.getElementById('settingsForm').addEventListener('submit',e=>{
+function collectForm(){
+  const data={};
+  Object.entries(ids).forEach(([key,id])=>{
+    const el=document.getElementById(id);
+    data[key]=(el?.value??'').trim();
+  });
+  return data;
+}
+
+async function loadGlobalConfig(){
+  try{
+    const response=await fetch(API_URL+'?t='+Date.now(),{
+      method:'GET',
+      cache:'no-store',
+      headers:{'Accept':'application/json'}
+    });
+    if(!response.ok) throw new Error('HTTP '+response.status);
+    const data=await response.json();
+    fillForm(data);
+    try{localStorage.setItem(STORAGE_KEY,JSON.stringify(data))}catch{}
+  }catch(error){
+    console.error(error);
+    try{
+      const cached=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');
+      fillForm(cached);
+      toast('Não foi possível acessar a configuração global. Exibindo cópia local.',3500);
+    }catch{
+      fillForm(defaults);
+      toast('Não foi possível acessar a configuração global.',3500);
+    }
+  }
+}
+
+function getAdminToken(){
+  let token=sessionStorage.getItem(TOKEN_KEY)||'';
+  if(!token){
+    token=prompt('Digite o ADMIN_TOKEN configurado no Cloudflare para salvar as alterações:')||'';
+    token=token.trim();
+    if(token) sessionStorage.setItem(TOKEN_KEY,token);
+  }
+  return token;
+}
+
+async function postConfig(data){
+  const token=getAdminToken();
+  if(!token) throw new Error('TOKEN_REQUIRED');
+
+  const response=await fetch(API_URL,{
+    method:'POST',
+    headers:{
+      'Content-Type':'application/json',
+      'Authorization':'Bearer '+token
+    },
+    body:JSON.stringify(data)
+  });
+
+  if(response.status===401){
+    sessionStorage.removeItem(TOKEN_KEY);
+    throw new Error('UNAUTHORIZED');
+  }
+
+  if(!response.ok){
+    const text=await response.text().catch(()=> '');
+    throw new Error('HTTP '+response.status+' '+text);
+  }
+
+  return response.json();
+}
+
+document.getElementById('settingsForm')?.addEventListener('submit',async e=>{
   e.preventDefault();
+
+  const button=e.submitter || document.querySelector('.save-button');
+  if(button) button.disabled=true;
+
   try{
-    saveSettings();
-    toast('Alterações salvas e sincronizadas');
-  }catch(err){
-    console.error(err);
-    toast('Não foi possível salvar. Verifique o armazenamento do navegador.');
+    const data=collectForm();
+    await postConfig(data);
+    try{localStorage.setItem(STORAGE_KEY,JSON.stringify(data))}catch{}
+    toast('Alterações salvas globalmente.');
+  }catch(error){
+    console.error(error);
+    if(error.message==='TOKEN_REQUIRED'){
+      toast('Salvamento cancelado: token não informado.');
+    }else if(error.message==='UNAUTHORIZED'){
+      toast('Token incorreto. Tente salvar novamente.');
+    }else{
+      toast('Erro ao salvar globalmente. Tente novamente.',3500);
+    }
+  }finally{
+    if(button) button.disabled=false;
   }
 });
 
-document.getElementById('restoreButton').addEventListener('click',()=>{
+document.getElementById('restoreButton')?.addEventListener('click',async()=>{
+  if(!confirm('Restaurar os valores padrão globalmente?')) return;
+
   try{
-    localStorage.setItem(STORAGE_KEY,JSON.stringify({...defaults,updatedAt:Date.now()}));
-    populate();
-    try{channel?.postMessage({type:'settings-updated',updatedAt:Date.now()})}catch{}
-    toast('Padrão restaurado e sincronizado');
-  }catch(err){
-    console.error(err);
-    toast('Não foi possível restaurar.');
+    await postConfig(defaults);
+    fillForm(defaults);
+    try{localStorage.setItem(STORAGE_KEY,JSON.stringify(defaults))}catch{}
+    toast('Padrão restaurado globalmente.');
+  }catch(error){
+    console.error(error);
+    if(error.message==='UNAUTHORIZED'){
+      toast('Token incorreto. Tente novamente.');
+    }else{
+      toast('Não foi possível restaurar globalmente.',3500);
+    }
   }
 });
 
-// Se outra aba alterar, atualiza o formulário também.
-window.addEventListener('storage',e=>{
-  if(e.key===STORAGE_KEY) populate();
-});
-try{
-  if(channel) channel.onmessage=event=>{
-    if(event.data?.type==='settings-updated') populate();
-  };
-}catch{}
-
-populate();
+loadGlobalConfig();
