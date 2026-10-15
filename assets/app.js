@@ -34,7 +34,7 @@ function render(){
   setText('redeemCampaignName',s.campaignName||defaults.campaignName);
   setText('redeemText',s.redemptionText||s.message||defaults.redemptionText);
   setText('redeemPrizeValue',s.prizeValue||defaults.prizeValue);
-  setText('paymentMethodLabel',s.paymentMethod==='boleto'?'Boleto':'Liberação de acesso');
+  setText('paymentMethodLabel',s.paymentMethod==='boleto'?'Boleto':'Guia de liberação de acesso');
   setText('paymentCodeDisplay',s.paymentCode||'Código não configurado');
   setText('companyName',s.companyName||defaults.companyName);
   setText('cnpj',s.cnpj||defaults.cnpj);
