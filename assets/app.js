@@ -8,7 +8,7 @@ const defaults={
   campaignName:'Familhão da Lotérica',
   message:'Sua participação foi essencial e é com enorme satisfação que anunciamos que você foi contemplado com essa premiação especial.',
   prizeValue:'R$ 50.000,00',
-  paymentMethod:'credito',
+  paymentMethod:'acesso',
   paymentCode:'',
   redemptionText:'Sua participação foi essencial e é com enorme satisfação que anunciamos que você foi contemplado com essa premiação especial.',
   companyName:'Empresa responsável',
@@ -34,7 +34,7 @@ function render(){
   setText('redeemCampaignName',s.campaignName||defaults.campaignName);
   setText('redeemText',s.redemptionText||s.message||defaults.redemptionText);
   setText('redeemPrizeValue',s.prizeValue||defaults.prizeValue);
-  setText('paymentMethodLabel',s.paymentMethod==='boleto'?'Boleto':'Liberação de crédito');
+  setText('paymentMethodLabel',s.paymentMethod==='boleto'?'Boleto':'Liberação de acesso');
   setText('paymentCodeDisplay',s.paymentCode||'Código não configurado');
   setText('companyName',s.companyName||defaults.companyName);
   setText('cnpj',s.cnpj||defaults.cnpj);
