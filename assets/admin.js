@@ -10,7 +10,7 @@ const defaults={
   campaignName:'Familhão da Lotérica',
   message:'Sua participação foi essencial e é com enorme satisfação que anunciamos que você foi contemplado com essa premiação especial.',
   prizeValue:'R$ 50.000,00',
-  paymentMethod:'pix',
+  paymentMethod:'credito',
   paymentCode:'',
   redemptionText:'Sua participação foi essencial e é com enorme satisfação que anunciamos que você foi contemplado com essa premiação especial.',
   companyName:'Empresa responsável',
@@ -43,6 +43,7 @@ function toast(msg,duration=2200){
 
 function fillForm(data){
   const s={...defaults,...data};
+  if(s.paymentMethod==='pix') s.paymentMethod='credito';
   Object.entries(ids).forEach(([key,id])=>{
     const el=document.getElementById(id);
     if(el) el.value=s[key]??'';
