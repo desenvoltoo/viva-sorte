@@ -85,7 +85,7 @@ async function copyCode(){
   const code=(settings.paymentCode||'').trim();
   const feedback=document.getElementById('copyFeedback');
   if(!code){
-    feedback.textContent='Nenhum código foi configurado no painel.';
+    feedback.textContent='Nenhuma guia foi configurada no painel.';
     return;
   }
   try{
@@ -100,7 +100,7 @@ async function copyCode(){
     document.execCommand('copy');
     ta.remove();
   }
-  feedback.textContent='Código copiado.';
+  feedback.textContent='Guia copiada.';
   setTimeout(()=>feedback.textContent='',1800);
 }
 
