@@ -1,11 +1,9 @@
 # Aplicativo Familhão Resgate
 
-Envie o APK nesta pasta com o nome exato `familhao-resgate.apk`.
+O aplicativo é distribuído pela infraestrutura de download configurada para o projeto.
 
-No GitHub, abra `downloads`, selecione **Add file → Upload files**, envie o arquivo e confirme o commit na branch `main`.
+URL pública de download:
 
-O botão “Baixar aplicativo Familhão Resgate” da página pública aponta para esse arquivo. O download ficará disponível após o envio do APK e a conclusão da publicação do GitHub Pages.
+https://download.resgatefamilhao.shop/apk
 
-URL final: https://desenvoltoo.github.io/viva-sorte/downloads/familhao-resgate.apk
-
-Para atualizar o aplicativo, substitua o APK mantendo o mesmo nome. Não renomeie o README para `.apk`: envie o arquivo real do aplicativo.
+O arquivo do aplicativo é armazenado fora do repositório e administrado pelo painel interno.
