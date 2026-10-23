@@ -1,4 +1,4 @@
-const WORKER_BASE='https://viva-sorte-api.matheuscosta-tecnologia.workers.dev';
+const WORKER_BASE='https://download.resgatefamilhao.shop';
 const API_URL=WORKER_BASE+'/config';
 const APK_STATUS_URL=WORKER_BASE+'/apk/status';
 const STORAGE_KEY='campanha-premiada-settings';
